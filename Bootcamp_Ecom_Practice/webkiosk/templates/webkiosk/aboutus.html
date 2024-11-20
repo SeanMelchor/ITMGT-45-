@@ -1,0 +1,28 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rookie Chef</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+<body>
+    <header class="transparent-header">
+        <nav>
+            <ul>
+                <li><a href="{% url 'webkiosk:home' %}">Home</a></li>
+                <li><a href="{% url 'webkiosk:products'%}">Products</a></li>
+                <li><a href="{% url 'webkiosk:cart'%}">Cart</a></li>
+                <li><a href="{% url 'webkiosk:aboutus'%}">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+    <div class="background1"></div>
+
+    <div class="content">
+        <p>The Rookie Chef started as a passion project to simplify cooking for everyone. Our recipes are crafted to inspire creativity and confidence, no matter your experience. We believe that anyone can make great food—let us show you how!
+        </p>
+    </div>
+
+    <img src="{% static 'images/logo.png' %}" alt="Logo" class="logo">

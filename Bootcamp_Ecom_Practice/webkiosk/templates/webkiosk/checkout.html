@@ -1,0 +1,55 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rookie Chef</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/Checkout.js' %}" defer></script>
+</head>
+
+<body>
+    <div class="background"></div> 
+
+    <header class="transparent-header">
+        <nav>
+            <ul>
+                <li><a href="{% url 'webkiosk:home' %}">Home</a></li>
+                <li><a href="{% url 'webkiosk:products'%}">Products</a></li>
+                <li><a href="{% url 'webkiosk:cart'%}">Cart</a></li>
+                <li><a href="{% url 'webkiosk:aboutus'%}">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="checkout-container">
+        <h1>Checkout</h1>
+        <div class="cart-summary">
+            <div id="cart-items"></div>
+            <div id="cart-total"></div>
+        </div>
+
+        <form id="checkout-form" class="checkout-form">
+            <h3>Billing Information</h3>
+            <label for="name">Full Name:</label>
+            <input type="text" id="name" placeholder="Enter your full name" required>
+
+            <label for="email">Email Address:</label>
+            <input type="email" id="email" placeholder="Enter your email" required>
+
+            <label for="address">Shipping Address:</label>
+            <textarea id="address" placeholder="Enter your shipping address" required></textarea>
+
+            <label for="card">Credit Card Information:</label>
+            <input type="text" id="card" placeholder="Card Number" required>
+
+            <label for="expiry">Expiry Date:</label>
+            <input type="text" id="expiry" placeholder="MM/YY" required>
+
+            <button type="submit" class="checkout-btn">Confirm Purchase</button>
+        </form>
+    </div>
+</body>
+</html>
