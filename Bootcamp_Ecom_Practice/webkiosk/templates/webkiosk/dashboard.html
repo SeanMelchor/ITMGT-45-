@@ -1,0 +1,134 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sales Dashboard - The Rookie Chef</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <!-- Include Chart.js from CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+    <!-- Include external dashboard.js -->
+    <script src="{% static 'js/dashboard.js' %}" defer></script>
+</head>
+<body>
+    <div class="background2"></div> 
+
+
+    <div class="dashboard-container">
+        <h1>Sales Dashboard</h1>
+
+
+      <!-- Metrics Section -->
+      <div class="metrics">
+        <div class="metric">
+            <h3>Total Sales</h3>
+            <p>${{ total_sales|floatformat:2 }}</p>
+        </div>
+        <div class="metric">
+            <h3>Number of Orders</h3>
+            <p>{{ num_orders }}</p>
+        </div>
+        <div class="metric">
+            <h3>Average Order Value</h3>
+            <p>${{ avg_order_value|floatformat:2 }}</p>
+        </div>
+    </div>
+
+    <!-- Best Selling Products Table -->
+    <h2>Best Selling Products</h2>
+    <table class="best-sellers-table">
+        <thead>
+            <tr>
+                <th>Product</th>
+                <th>Total Sold</th>
+                <th>Total Revenue ($)</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for product in best_sellers %}
+            <tr>
+                <td>{{ product.product__name }}</td>
+                <td>{{ product.total_sold }}</td>
+                <td>{{ product.total_revenue|floatformat:2 }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="3">No sales data available.</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Revenue Chart -->
+    <h2>Revenue by Best Selling Products</h2>
+    <canvas id="revenueChart" width="400" height="200"></canvas>
+
+    <!-- Inline JavaScript to Initialize Chart.js -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Populate productNames and revenues using Django template tags
+            const productNames = [
+                {% for product in best_sellers %}
+                    "{{ product.product__name }}"{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            ];
+            const revenues = [
+                {% for product in best_sellers %}
+                    {{ product.total_revenue|floatformat:2 }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            ];
+
+            // Check if there are products to display
+            if (productNames.length > 0) {
+                const ctx = document.getElementById('revenueChart').getContext('2d');
+                const revenueChart = new Chart(ctx, {
+                    type: 'bar',
+                    data: {
+                        labels: productNames,
+                        datasets: [{
+                            label: 'Revenue ($)',
+                            data: revenues,
+                            backgroundColor: 'rgba(54, 162, 235, 0.6)',
+                            borderColor: 'rgba(54, 162, 235, 1)',
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        scales: {
+                            y: { 
+                                beginAtZero: true,
+                                title: {
+                                    display: true,
+                                    text: 'Revenue ($)'
+                                }
+                            },
+                            x: {
+                                title: {
+                                    display: true,
+                                    text: 'Products'
+                                }
+                            }
+                        },
+                        plugins: {
+                            legend: {
+                                display: false
+                            },
+                            title: {
+                                display: false,
+                                text: 'Revenue by Best Selling Products'
+                            }
+                        }
+                    }
+                });
+            } else {
+                // Hide the chart canvas if there's no data
+                document.getElementById('revenueChart').style.display = 'none';
+            }
+        });
+    </script>
+</div>
+
+</body>
+</html>

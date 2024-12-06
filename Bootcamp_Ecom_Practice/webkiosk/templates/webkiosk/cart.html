@@ -1,0 +1,40 @@
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Rookie Chef</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <script src="{% static 'js/Cart.js' %}" defer></script>
+</head>
+<body>
+    <div class="background2"></div>
+
+    <header class="transparent-header">
+        <nav>
+            <ul>
+                <li><a href="{% url 'webkiosk:home' %}">Home</a></li>
+                <li><a href="{% url 'webkiosk:products'%}">Products</a></li>
+                <li><a href="{% url 'webkiosk:cart'%}">Cart</a></li>
+                <li><a href="{% url 'webkiosk:aboutus'%}">About Us</a></li>
+            </ul>
+        </nav>
+    </header>
+    
+    <div class="cart-container">
+        <div id="cart-items"></div>
+        <div id="cart-total"></div>
+        <button id="checkout-btn" data-checkout-url="{% url 'webkiosk:checkout' %}">Checkout</button>
+    </div>
+
+<script>
+    document.getElementById('checkout-btn').addEventListener('click', function() {
+        const checkoutUrl = this.getAttribute('data-checkout-url');
+        window.location.href = checkoutUrl;
+    });
+</script>
+
+</body>
+</html>
